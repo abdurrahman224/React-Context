@@ -1,8 +1,12 @@
-import React, { useContext } from "react";
+
+import { useContext } from "react";
 import { AuthContext } from "../AuthProvider/AuthProvider";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+
 
 const Navbar = () => {
+ 
+const { User, singOutUser } = useContext(AuthContext);
   const linkd = (
     <>
       <li>
@@ -14,11 +18,36 @@ const Navbar = () => {
       <li>
         <NavLink to="/registration">Registration</NavLink>
       </li>
+      {User && <>
+      <li>
+          <NavLink to="/orders">Order</NavLink>
+        </li>
+        <li>
+          <NavLink to="/profile">Profile</NavLink>
+        </li>
+      
+      
+      </>
+        
+      }
     </>
   );
 
-  const autheInfo = useContext(AuthContext);
-  console.log("Hello", autheInfo);
+  const handleSigut = () => {
+    singOutUser()
+      .then(() => {
+
+        console.log("User sign Out success full");
+        
+      }).catch((error) => {
+  
+
+        console.log("ERROR : ",error);
+        
+})
+
+  }
+  console.log("Hellodssfd", User);
 
   return (
     <div className="navbar bg-base-100 shadow-sm">
@@ -32,13 +61,13 @@ const Navbar = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              {" "}
+              {' '}
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
                 d="M4 6h16M4 12h8m-8 6h16"
-              />{" "}
+              />{' '}
             </svg>
           </div>
           <ul
@@ -54,7 +83,21 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{linkd}</ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+       
+       
+          {User ? (
+            <>
+              {' '}
+              <span>{User?.email}</span>
+              <button onClick={handleSigut} className="btn">
+                {' '}
+                Sign Out
+              </button>
+            </>
+          ) : (
+            <Link to="/login">Login</Link>
+          )}
+       
       </div>
     </div>
   );

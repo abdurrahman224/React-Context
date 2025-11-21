@@ -1,26 +1,30 @@
 import React from "react";
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 
 
 
 const Registration = () => {
 
-  const {createUset}  = useContext(AuthContext)
+
+  const Navigate = useNavigate()
+  const { createUset, signWitheGoogle } = useContext(AuthContext);
 
 const hendleRegistration = (e) => {
   e.preventDefault()
   const name = e.target.name.value;    
   const email = e.target.email.value;   
   const password = e.target.password.value 
-  console.log(name,email,password);
+  console.log(name, email, password);
+  
 
   createUset (email,password)
   .then((result)=>{
 
     console.log(result.user);
-    
+    e.target.reset()
+    Navigate('/orders');
   }).catch(error=>{
 
 
@@ -33,7 +37,26 @@ const hendleRegistration = (e) => {
 };
 
 
+  const hensdleGoogle = () => {
+  
 
+    signWitheGoogle()
+      .then((result) => {
+      
+
+        console.log(result.user);
+         Navigate('/profile');
+        
+      }).catch((error) => {
+      
+
+        console.log(error.message);
+        
+    })
+
+
+
+}
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row-reverse">
@@ -54,6 +77,7 @@ const hendleRegistration = (e) => {
                 </div>
               </Link>
             </form>
+            <button onClick={hensdleGoogle}> Google</button>
           </div>
         </div>
       </div>

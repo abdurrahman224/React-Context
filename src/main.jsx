@@ -12,29 +12,42 @@ import Registration from './components/Registration/Registration.jsx';
 import Root from './components/Root/Root.jsx';
 import Home from './components/Home/Home.jsx';
 import Login from './components/Login/Login.jsx';
+import Oders from './components/Oders/Oders.jsx';
+import PrivateRoutus from './components/routes/PrivateRoutus.jsx';
+import Profile from './components/Profile/Profile.jsx';
 
 let router = createBrowserRouter([
   {
-    path: "/",
-    Component:Root,
-    children:[
+    path: '/',
+    Component: Root,
+    children: [
       {
-      path : '/',
-      Component: Home
-
+        path: '/',
+        Component: Home,
       },
       {
-      path : 'login',
-      Component: Login
-
+        path: 'login',
+        Component: Login,
       },
       {
-      path : 'registration',
-      Component: Registration
-
+        path: 'registration',
+        Component: Registration,
       },
-    ]
-   
+      {
+        path: 'orders',
+        element: (
+          <PrivateRoutus>
+            <Oders />
+          </PrivateRoutus>
+        ),
+      }, {
+        
+        path: 'profile',
+        element: <PrivateRoutus><Profile/></PrivateRoutus>
+
+
+      }
+    ],
   },
 ]);
 
